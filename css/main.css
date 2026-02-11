@@ -28,6 +28,9 @@ table {
   cursor: pointer;
   border: 1px solid black;
   font-size: 2rem;
+  box-shadow:
+    inset 1px 1px 2px 0px rgb(95, 95, 95),
+    inset -1px -1px 2px 0px rgb(76, 76, 76);
 }
 
 .cell:hover {
@@ -64,4 +67,19 @@ table {
   background-color: rgb(255, 221, 221);
   border: none;
   cursor: pointer;
+}
+
+.revealed {
+  position: relative;
+}
+
+.revealed::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  user-select: none;
 }

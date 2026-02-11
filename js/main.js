@@ -5,7 +5,16 @@ console.log("hi from script")
 let SIZE = 4
 let numberOfMines = 2
 const BOMB = "💣"
-const COLORS = { 1: "#0100f8", 2: "#007e02" }
+const COLORS = {
+  1: "#0100f8",
+  2: "#007e02",
+  3: "#fc0003",
+  4: "#00007f",
+  5: "#7c0201",
+  6: "#027e7d",
+  7: "#000000",
+  8: "#808080",
+}
 
 let gBoard = createBoard(SIZE)
 placeMines(numberOfMines)
@@ -31,7 +40,7 @@ function renderBoard() {
     boardHtml += "<tr>"
     for (let j = 0; j < gBoard[0].length; j++) {
       boardHtml += `
-      <td class="cell cell-${i}-${j}" style="color:${COLORS[gBoard[i][j].minesAround]};">
+      <td class="cell cell-${i}-${j} revealed" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="handleCellClick(this,${i},${j})" oncontextmenu="handleFlagTile()">
       ${gBoard[i][j].isMine ? BOMB : gBoard[i][j].minesAround > 0 ? gBoard[i][j].minesAround : ""}
       </td>`
     }
@@ -82,6 +91,20 @@ function countBombsAround(pos) {
   }
 
   return count
+}
+
+function handleCellClick(el, i, j) {
+  el.classList.remove("revealed")
+  if (gBoard[i][j].isMine) gameOver()
+}
+
+function handleFlagTile() {
+  console.log("flagging")
+  return false
+}
+
+function gameOver() {
+  console.log("the game is indeed over")
 }
 
 function getRandomInt(min, max) {
