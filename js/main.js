@@ -16,10 +16,13 @@ const COLORS = {
   8: "#808080",
 }
 
-let gBoard = createBoard(SIZE)
-placeMines(numberOfMines)
-setupTileNumbers()
-renderBoard()
+let gBoard
+function onInit() {
+  gBoard = createBoard(SIZE)
+  placeMines(numberOfMines)
+  setupTileNumbers()
+  renderBoard()
+}
 
 function createBoard(size) {
   const newBoard = []
@@ -40,7 +43,7 @@ function renderBoard() {
     boardHtml += "<tr>"
     for (let j = 0; j < gBoard[0].length; j++) {
       boardHtml += `
-      <td class="cell cell-${i}-${j} revealed" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="handleCellClick(this,${i},${j})" oncontextmenu="handleFlagTile()">
+      <td class="cell cell-${i}-${j} covered" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="handleCellClick(this,${i},${j})" oncontextmenu="handleFlagTile()">
       ${gBoard[i][j].isMine ? BOMB : gBoard[i][j].minesAround > 0 ? gBoard[i][j].minesAround : ""}
       </td>`
     }
@@ -94,7 +97,7 @@ function countBombsAround(pos) {
 }
 
 function handleCellClick(el, i, j) {
-  el.classList.remove("revealed")
+  el.classList.remove("covered")
   if (gBoard[i][j].isMine) gameOver()
 }
 
@@ -104,6 +107,15 @@ function handleFlagTile() {
 }
 
 function gameOver() {
+  for (let i = 0; i < gBoard.length; i++) {
+    for (let j = 0; j < gBoard[0].length; j++) {
+      const currentItem = gBoard[i][j]
+      if (currentItem.isMine) {
+        currentItem.isRevealed = true
+        document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
+      }
+    }
+  }
   console.log("the game is indeed over")
 }
 

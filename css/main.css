@@ -69,11 +69,11 @@ table {
   cursor: pointer;
 }
 
-.revealed {
+.covered {
   position: relative;
 }
 
-.revealed::before {
+.covered::before {
   content: "";
   height: 100%;
   width: 100%;
