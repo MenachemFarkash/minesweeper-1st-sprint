@@ -102,6 +102,14 @@ function handleCellClick(el, i, j) {
 }
 
 function handleFlagTile(el, i, j) {
+    if (gBoard[i][j].isFlagged === true) {
+        el.classList.add("covered")
+        el.classList.remove("flagged")
+        el.innerText = gBoard[i][j].minesAround
+        gBoard[i][j].isFlagged = false
+        return
+    }
+
     console.log("flagging")
     el.classList.remove("covered")
 
