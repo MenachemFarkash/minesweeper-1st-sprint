@@ -11,7 +11,7 @@
     <div class="game-container">
       <section class="round-info">
         <div class="mines-left-counter">099</div>
-        <div class="smiley-guy">:0</div>
+        <div class="smiley-guy" onclick="onInit()">:0</div>
         <div class="timer">0:00</div>
       </section>
       <main>
@@ -21,12 +21,14 @@
       </main>
       <section>
         <div class="buttons-container">
-          <button onclick="onInit()">RESTART</button>
-          <button onclick="onInit()">RESTART</button>
-          <button onclick="onInit()">RESTART</button>
-          <button onclick="onInit()">RESTART</button>
+          <button onclick="changeGameSize(4)">4 X 4</button>
+          <button onclick="changeGameSize(8)">8 X 8</button>
+          <button onclick="changeGameSize(12)">12 X 12</button>
         </div>
       </section>
+      <footer>
+        <h1>MENACHEM FARKASH</h1>
+      </footer>
     </div>
   </body>
 </html>

@@ -2,7 +2,7 @@
 
 let SIZE = 4
 let numberOfMines = 2
-const BOMB = "💣"
+const MINE = "💣"
 const COLORS = {
   1: "#0100f8",
   2: "#007e02",
@@ -13,13 +13,13 @@ const COLORS = {
   7: "#000000",
   8: "#808080",
 }
+let isFirstClick = true
 
 let gBoard
 function onInit() {
   gBoard = createBoard(SIZE)
-  placeMines(numberOfMines)
-  setupTileNumbers()
   renderBoard()
+  isFirstClick = true
 }
 
 function createBoard(size) {
@@ -35,14 +35,13 @@ function createBoard(size) {
 }
 
 function renderBoard() {
-  console.table(gBoard)
   let boardHtml = ""
   for (let i = 0; i < gBoard.length; i++) {
     boardHtml += "<tr>"
     for (let j = 0; j < gBoard[0].length; j++) {
       boardHtml += `
       <td class="cell cell-${i}-${j} covered" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="handleCellClick(this,${i},${j})" oncontextmenu="handleFlagTile(this, ${i},${j})">
-      ${gBoard[i][j].isMine ? BOMB : gBoard[i][j].minesAround > 0 ? gBoard[i][j].minesAround : ""}
+      ${gBoard[i][j].isMine ? MINE : gBoard[i][j].minesAround > 0 ? gBoard[i][j].minesAround : ""}
       </td>`
     }
     boardHtml += "</tr>"
@@ -51,10 +50,10 @@ function renderBoard() {
   document.querySelector("tbody").innerHTML = boardHtml
 }
 
-function placeMines(count) {
+function placeMines(count, pos) {
   for (let i = 0; i < count; i++) {
     let randomTile = pickRandomTile(gBoard)
-    while (randomTile.isMine) {
+    while (randomTile.isMine || (pos.i === randomTile.i && pos.j === randomTile.j)) {
       randomTile = pickRandomTile(gBoard)
     }
     gBoard[randomTile.i][randomTile.j].isMine = true
@@ -72,12 +71,12 @@ function setupTileNumbers() {
     for (let j = 0; j < gBoard[0].length; j++) {
       const currentItem = gBoard[i][j]
       if (currentItem.isMine) continue
-      currentItem.minesAround = countBombsAround({ i, j })
+      currentItem.minesAround = countMinesAround({ i, j })
     }
   }
 }
 
-function countBombsAround(pos) {
+function countMinesAround(pos) {
   let count = 0
 
   for (var i = pos.i - 1; i <= pos.i + 1; i++) {
@@ -95,11 +94,25 @@ function countBombsAround(pos) {
 }
 
 function handleCellClick(el, i, j) {
+  if (isFirstClick) {
+    handleFirstClick({ i, j })
+
+    //calling this since the el does not exist enymore
+    document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
+  }
+
   el.classList.remove("covered")
   gBoard[i][j].isRevealed = true
   if (gBoard[i][j].isMine) gameOver()
   revealeSafeNegTiles({ i, j })
   checkGameOver()
+}
+
+function handleFirstClick(pos) {
+  placeMines(numberOfMines, { i: pos.i, j: pos.j })
+  setupTileNumbers()
+  isFirstClick = false
+  renderBoard()
 }
 
 function handleFlagTile(el, i, j) {
@@ -109,12 +122,13 @@ function handleFlagTile(el, i, j) {
     gBoard[i][j].isFlagged = false
     gBoard[i][j].isRevealed = false
 
-    // if the tile is a bomb. its content now shows a bomb
+    // if the tile is a mine. its content now shows a mine
     if (gBoard[i][j].isMine) {
-      el.innerText = BOMB
+      el.innerText = MINE
       return
     }
 
+    // Make sure the tile will not show 0 when the flag is removed than the tile is clicked :)
     gBoard[i][j].isRevealed = true
     el.innerText = gBoard[i][j].minesAround || ""
     return
@@ -142,23 +156,22 @@ function gameOver() {
 }
 
 function checkGameOver() {
-  //if a mine is not flagged
-  // if not all tiles are revealed
   let completedTilesCount = 0
   for (let i = 0; i < gBoard.length; i++) {
     for (let j = 0; j < gBoard[0].length; j++) {
       const currentItem = gBoard[i][j]
+
+      //if a mine is not flagged
       if (currentItem.isMine && !currentItem.isFlagged) {
-        console.log("this mine is not flagged", i, j)
         return
       }
+
+      // if not all tiles are revealed
       if (!currentItem.isRevealed) {
-        console.log("this tile is not revealed", i, j)
         return
       }
 
       completedTilesCount++
-
       if (completedTilesCount === SIZE * SIZE) console.log("you win", i, j)
     }
   }
@@ -181,6 +194,14 @@ function revealeSafeNegTiles(pos) {
       }
     }
   }
+}
+
+function changeGameSize(newSize) {
+  SIZE = newSize
+  if (newSize === 4) numberOfMines = 2
+  if (newSize === 8) numberOfMines = 14
+  if (newSize === 12) numberOfMines = 32
+  onInit()
 }
 
 function getRandomInt(min, max) {
