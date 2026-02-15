@@ -14,11 +14,19 @@ const COLORS = {
   8: "#808080",
 }
 let isFirstClick = true
+let isGameOver = false
+let gTimer
+let gSmileyState = "playing"
+let lives = 1
 
 let gBoard
 function onInit() {
   gBoard = createBoard(SIZE)
   renderBoard()
+  clearInterval(gTimer)
+  minesLeftCounter()
+  changeSmiley("playing")
+  isGameOver = false
   isFirstClick = true
 }
 
@@ -97,6 +105,7 @@ function handleCellClick(el, i, j) {
   if (isFirstClick) {
     handleFirstClick({ i, j })
 
+    handleTimer()
     //calling this since the el does not exist enymore
     document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
   }
@@ -104,6 +113,7 @@ function handleCellClick(el, i, j) {
   el.classList.remove("covered")
   gBoard[i][j].isRevealed = true
   if (gBoard[i][j].isMine) gameOver()
+
   revealeSafeNegTiles({ i, j })
   checkGameOver()
 }
@@ -121,7 +131,7 @@ function handleFlagTile(el, i, j) {
     el.classList.remove("flagged")
     gBoard[i][j].isFlagged = false
     gBoard[i][j].isRevealed = false
-
+    minesLeftCounter()
     // if the tile is a mine. its content now shows a mine
     if (gBoard[i][j].isMine) {
       el.innerText = MINE
@@ -140,6 +150,7 @@ function handleFlagTile(el, i, j) {
   gBoard[i][j].isFlagged = true
   el.classList.add("flagged")
   el.innerText = "🚩"
+  minesLeftCounter()
   checkGameOver()
 }
 
@@ -153,6 +164,9 @@ function gameOver() {
       }
     }
   }
+  isGameOver = true
+  changeSmiley("lose")
+  clearInterval(gTimer)
 }
 
 function checkGameOver() {
@@ -172,7 +186,10 @@ function checkGameOver() {
       }
 
       completedTilesCount++
-      if (completedTilesCount === SIZE * SIZE) console.log("you win", i, j)
+      if (completedTilesCount === SIZE * SIZE) {
+        clearInterval(gTimer)
+        changeSmiley("win")
+      }
     }
   }
 }
@@ -202,10 +219,4 @@ function changeGameSize(newSize) {
   if (newSize === 8) numberOfMines = 14
   if (newSize === 12) numberOfMines = 32
   onInit()
-}
-
-function getRandomInt(min, max) {
-  const minCeiled = Math.ceil(min)
-  const maxFloored = Math.floor(max)
-  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
 }
