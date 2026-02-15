@@ -1,7 +1,5 @@
 "use strict"
 
-console.log("hi from script")
-
 let SIZE = 4
 let numberOfMines = 2
 const BOMB = "💣"
@@ -98,7 +96,9 @@ function countBombsAround(pos) {
 
 function handleCellClick(el, i, j) {
   el.classList.remove("covered")
+  gBoard[i][j].isRevealed = true
   if (gBoard[i][j].isMine) gameOver()
+  revealeSafeNegTiles({ i, j })
   checkGameOver()
 }
 
@@ -139,19 +139,46 @@ function gameOver() {
       }
     }
   }
-  console.log("the game is indeed over")
 }
 
 function checkGameOver() {
   //if a mine is not flagged
   // if not all tiles are revealed
+  let completedTilesCount = 0
   for (let i = 0; i < gBoard.length; i++) {
     for (let j = 0; j < gBoard[0].length; j++) {
       const currentItem = gBoard[i][j]
-      if (currentItem.isMine && !currentItem.isFlagged) return
-      if (!currentItem.isRevealed) return
-      console.log("you win")
-      console.table(gBoard)
+      if (currentItem.isMine && !currentItem.isFlagged) {
+        console.log("this mine is not flagged", i, j)
+        return
+      }
+      if (!currentItem.isRevealed) {
+        console.log("this tile is not revealed", i, j)
+        return
+      }
+
+      completedTilesCount++
+
+      if (completedTilesCount === SIZE * SIZE) console.log("you win", i, j)
+    }
+  }
+}
+
+function revealeSafeNegTiles(pos) {
+  if (gBoard[pos.i][pos.j].isMine) return
+  if (gBoard[pos.i][pos.j].minesAround === 0) {
+    for (var i = pos.i - 1; i <= pos.i + 1; i++) {
+      if (i < 0 || i >= gBoard.length) continue
+
+      for (var j = pos.j - 1; j <= pos.j + 1; j++) {
+        if (j < 0 || j >= gBoard[i].length) continue
+        if (i === pos.i && j === pos.j) continue
+
+        if (!gBoard[i][j].isMine && !gBoard[i][j].isRevealed) {
+          const elTile = document.querySelector(`.cell-${i}-${j}`)
+          handleCellClick(elTile, i, j)
+        }
+      }
     }
   }
 }
