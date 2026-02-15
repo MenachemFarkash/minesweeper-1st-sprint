@@ -27,6 +27,7 @@ function onInit() {
     clearInterval(gTimer)
     minesLeftCounter()
     changeSmiley("playing")
+    resetLives()
     updateLivesCounter()
     isGameOver = false
     isFirstClick = true
@@ -230,6 +231,12 @@ function revealeSafeNegTiles(pos) {
             }
         }
     }
+}
+
+function resetLives() {
+    if (SIZE === 4) lives = 1
+    if (SIZE === 8) lives = 2
+    if (SIZE === 12) lives = 3
 }
 
 function changeGameSize(newSize) {
