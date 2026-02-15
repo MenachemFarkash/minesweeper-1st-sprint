@@ -1,36 +1,37 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/main.css" />
-    <script src="js/utils.js" defer></script>
-    <script src="js/ui.js" defer></script>
-    <script src="js/main.js" defer></script>
-    <title>Document</title>
-  </head>
-  <body onload="onInit()" oncontextmenu="return false">
-    <div class="game-container">
-      <section class="round-info">
-        <div class="mines-left-counter">099</div>
-        <div class="smiley-guy" onclick="onInit()">😊</div>
-        <div class="timer">000</div>
-      </section>
-      <main>
-        <table>
-          <tbody></tbody>
-        </table>
-      </main>
-      <section>
-        <div class="buttons-container">
-          <button onclick="changeGameSize(4)">4 X 4</button>
-          <button onclick="changeGameSize(8)">8 X 8</button>
-          <button onclick="changeGameSize(12)">12 X 12</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/main.css" />
+        <script src="js/utils.js" defer></script>
+        <script src="js/ui.js" defer></script>
+        <script src="js/main.js" defer></script>
+        <title>Document</title>
+    </head>
+    <body onload="onInit()" oncontextmenu="return false">
+        <div class="game-container">
+            <section class="round-info">
+                <div class="mines-left-counter">099</div>
+                <div class="smiley-guy" onclick="onInit()">😊</div>
+                <div class="lives">❤️❤️❤️</div>
+                <div class="timer">000</div>
+            </section>
+            <main>
+                <table>
+                    <tbody></tbody>
+                </table>
+            </main>
+            <section>
+                <div class="buttons-container">
+                    <button onclick="changeGameSize(4)">4 X 4</button>
+                    <button onclick="changeGameSize(8)">8 X 8</button>
+                    <button onclick="changeGameSize(12)">12 X 12</button>
+                </div>
+            </section>
+            <footer>
+                <h1>MENACHEM FARKASH</h1>
+            </footer>
         </div>
-      </section>
-      <footer>
-        <h1>MENACHEM FARKASH</h1>
-      </footer>
-    </div>
-  </body>
+    </body>
 </html>
