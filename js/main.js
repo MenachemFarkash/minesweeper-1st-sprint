@@ -18,8 +18,8 @@ let isGameOver = false
 let gTimer
 let gSmileyState = "playing"
 let lives = 1
-
 let gBoard
+
 function onInit() {
   gBoard = createBoard(SIZE)
   renderBoard()
@@ -115,7 +115,7 @@ function handleCellClick(el, i, j) {
   if (gBoard[i][j].isMine) gameOver()
 
   revealeSafeNegTiles({ i, j })
-  checkGameOver()
+  checkGameWon()
 }
 
 function handleFirstClick(pos) {
@@ -151,7 +151,7 @@ function handleFlagTile(el, i, j) {
   el.classList.add("flagged")
   el.innerText = "🚩"
   minesLeftCounter()
-  checkGameOver()
+  checkGameWon()
 }
 
 function gameOver() {
@@ -169,7 +169,7 @@ function gameOver() {
   clearInterval(gTimer)
 }
 
-function checkGameOver() {
+function checkGameWon() {
   let completedTilesCount = 0
   for (let i = 0; i < gBoard.length; i++) {
     for (let j = 0; j < gBoard[0].length; j++) {
