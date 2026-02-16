@@ -22,16 +22,25 @@ let lives = 1
 let gBoard
 
 function onInit() {
+    // Board
     renderLeaderBoard()
     gBoard = createBoard(SIZE)
     renderBoard()
+
+    // Intervals
     clearInterval(gTimer)
+
+    // Stats UI
     minesLeftCounter()
     changeSmiley("playing")
     resetStats()
+
+    // Powers UI
     updateSafeClickCounter()
     updateHintsCounter()
     updateLivesCounter()
+
+    // Global Booleans
     isGameOver = false
     isFirstClick = true
 }
@@ -93,6 +102,8 @@ function setupTileNumbers() {
             const currentItem = gBoard[i][j]
             if (currentItem.isMine) continue
             currentItem.minesAround = countMinesAround({ i, j })
+            document.querySelector(`.cell-${i}-${j}`).innerText =
+                currentItem.minesAround > 0 ? currentItem.minesAround : ""
         }
     }
 }

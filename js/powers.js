@@ -2,6 +2,7 @@ let isHintActive = false
 let isSafeClickActive = false
 let hints = 3
 let safeClicks = 3
+let exterminators = 1
 
 function activateHintPowerUp() {
     if (hints <= 0) return
@@ -35,6 +36,8 @@ function hintPowerUp(pos = { i, j }, shouldReveal = true) {
 }
 
 function safeClickPowerUp() {
+    if (isFirstClick) return
+    if (isGameOver) return
     if (safeClicks <= 0) return
     let randomTile = pickRandomTile(gBoard)
     while (randomTile.isMine || randomTile.isRevealed) {
@@ -43,4 +46,16 @@ function safeClickPowerUp() {
     document.querySelector(`.cell-${randomTile.i}-${randomTile.j}`).classList.add("safe")
     safeClicks--
     updateSafeClickCounter()
+}
+
+function mineExterminatorPowerUp() {
+    if (isFirstClick) return
+    if (isGameOver) return
+    const mines = findAllMines()
+    for (let i = 0; i < 3; i++) {
+        const mine = pickRandomMine(mines)
+        gBoard[mine.i][mine.j].isMine = false
+        setupTileNumbers()
+        exterminators--
+    }
 }

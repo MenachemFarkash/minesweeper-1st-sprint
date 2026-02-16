@@ -1,5 +1,3 @@
-console.log("hi from local stoarge")
-
 const user = { name: "manechem", time: 5 }
 const records = []
 
