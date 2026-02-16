@@ -4,7 +4,7 @@ body {
     font-family: "Bungee", sans-serif, monospace;
     font-weight: 400;
     font-style: normal;
-    transform: perspective(1500px) rotateX(20deg);
+    transform: perspective(1500px) rotateX(5deg);
     transform-origin: center top;
 }
 
@@ -104,10 +104,12 @@ table {
     cursor: pointer;
     width: 100%;
     padding: 0.8rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
     border-radius: 7px;
     background-color: #bababa;
     border: 15px outset rgb(228, 228, 228);
+    font-family: unset;
+    color: white;
 }
 
 .covered {
@@ -127,6 +129,10 @@ table {
     box-shadow:
         inset 3px 3px 0px 0px #ffffff,
         inset -3px -3px 0px 0px #7b7b7b;
+}
+
+.covered.flagged::before {
+    content: "🚩";
 }
 
 .smiley-guy {

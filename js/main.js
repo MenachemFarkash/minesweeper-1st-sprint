@@ -116,7 +116,6 @@ function countMinesAround(pos) {
 function handleCellClick(el, i, j) {
     if (isFirstClick) {
         handleFirstClick({ i, j })
-
         handleTimer()
         //calling this since the el does not exist enymore
         document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
@@ -130,7 +129,6 @@ function handleCellClick(el, i, j) {
     el.classList.remove("covered")
     gBoard[i][j].isRevealed = true
     if (gBoard[i][j].isMine) {
-        gBoard[i][j].isRevealed = true
         bombRevealTimeout = setTimeout(() => {
             document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
             gBoard[i][j].isRevealed = false
@@ -151,29 +149,14 @@ function handleFirstClick(pos) {
 
 function handleFlagTile(el, i, j) {
     if (gBoard[i][j].isFlagged === true) {
-        el.classList.add("covered")
         el.classList.remove("flagged")
         gBoard[i][j].isFlagged = false
-        gBoard[i][j].isRevealed = false
         minesLeftCounter()
-        // if the tile is a mine. its content now shows a mine
-        if (gBoard[i][j].isMine) {
-            el.innerText = MINE
-            return
-        }
-
-        // Make sure the tile will not show 0 when the flag is removed than the tile is clicked :)
-        gBoard[i][j].isRevealed = true
-        el.innerText = gBoard[i][j].minesAround || ""
         return
     }
 
-    el.classList.remove("covered")
-
-    gBoard[i][j].isRevealed = true
     gBoard[i][j].isFlagged = true
     el.classList.add("flagged")
-    el.innerText = "🚩"
     minesLeftCounter()
     checkGameWon()
 }
@@ -184,13 +167,14 @@ function gameOver() {
     if (lives === 1) {
         for (let i = 0; i < gBoard.length; i++) {
             for (let j = 0; j < gBoard[0].length; j++) {
-                const currentItem = gBoard[i][j]
-                if (currentItem.isMine) {
-                    currentItem.isRevealed = true
+                const currentCell = gBoard[i][j]
+                if (currentCell.isMine) {
+                    currentCell.isRevealed = true
                     document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
                 }
             }
         }
+
         isGameOver = true
         changeSmiley("lose")
         clearInterval(gTimer)
@@ -207,15 +191,15 @@ function checkGameWon() {
     let completedTilesCount = 0
     for (let i = 0; i < gBoard.length; i++) {
         for (let j = 0; j < gBoard[0].length; j++) {
-            const currentItem = gBoard[i][j]
+            const currentCell = gBoard[i][j]
 
             //if a mine is not flagged
-            if (currentItem.isMine && !currentItem.isFlagged) {
+            if (currentCell.isMine && !currentCell.isFlagged) {
                 return
             }
 
             // if not all tiles are revealed
-            if (!currentItem.isRevealed) {
+            if (!currentCell.isRevealed && !currentCell.isMine) {
                 return
             }
 
@@ -230,6 +214,7 @@ function checkGameWon() {
 
 function revealeSafeNegTiles(pos) {
     if (gBoard[pos.i][pos.j].isMine) return
+
     if (gBoard[pos.i][pos.j].minesAround === 0) {
         for (var i = pos.i - 1; i <= pos.i + 1; i++) {
             if (i < 0 || i >= gBoard.length) continue
