@@ -28,7 +28,7 @@ function onInit() {
     clearInterval(gTimer)
     minesLeftCounter()
     changeSmiley("playing")
-    resetLives()
+    resetStats()
     updateSafeClickCounter()
     updateHintsCounter()
     updateLivesCounter()
@@ -237,40 +237,38 @@ function revealeSafeNegTiles(pos) {
     }
 }
 
-function resetLives() {
-    if (SIZE === 4) lives = 1
-    if (SIZE === 8) lives = 2
-    if (SIZE === 12) lives = 3
+function resetStats() {
+    if (SIZE === 4) {
+        lives = 1
+        hints = 1
+        safeClicks = 1
+    }
+    if (SIZE === 8) {
+        lives = 2
+        hints = 2
+        safeClicks = 2
+    }
+    if (SIZE === 12) {
+        lives = 3
+        hints = 3
+        safeClicks = 3
+    }
+
+    updateSafeClickCounter()
+    updateLivesCounter()
+    updateHintsCounter()
 }
 
 function changeGameSize(newSize) {
     SIZE = newSize
     if (newSize === 4) {
         numberOfMines = 2
-        lives = 1
-        hints = 1
-        safeClicks = 1
-        updateSafeClickCounter()
-        updateLivesCounter()
-        updateHintsCounter()
     }
     if (newSize === 8) {
         numberOfMines = 14
-        lives = 2
-        hints = 2
-        safeClicks = 2
-        updateSafeClickCounter()
-        updateHintsCounter()
-        updateLivesCounter()
     }
     if (newSize === 12) {
         numberOfMines = 32
-        lives = 3
-        hints = 3
-        safeClicks = 3
-        updateSafeClickCounter()
-        updateHintsCounter()
-        updateLivesCounter()
     }
     onInit()
 }

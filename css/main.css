@@ -178,3 +178,8 @@ footer button {
     height: fit-content;
     font-size: 2rem;
 }
+
+.hints,
+.safe-click {
+    cursor: pointer;
+}
