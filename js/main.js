@@ -1,7 +1,7 @@
 "use strict"
 
-let SIZE = 4
-let numberOfMines = 2
+let SIZE = 12
+let numberOfMines = 32
 const MINE = "💣"
 const COLORS = {
     1: "#0100f8",

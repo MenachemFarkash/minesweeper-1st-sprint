@@ -4,6 +4,8 @@ body {
     font-family: "Bungee", sans-serif, monospace;
     font-weight: 400;
     font-style: normal;
+    transform: perspective(1500px) rotateX(20deg);
+    transform-origin: center top;
 }
 
 .game-container {
@@ -11,13 +13,14 @@ body {
     justify-content: center;
     width: 80%;
     margin: 20px auto;
+    margin-top: 0;
     padding: 1rem;
     gap: 1rem;
 }
 
 .leader-board {
     background-color: #bababa;
-    width: 65%;
+    width: 55%;
     margin: 0 auto;
     max-height: 500px;
     border: 15px inset rgb(0, 0, 0);
@@ -56,7 +59,7 @@ table {
     min-width: 32px;
     height: 32px;
     cursor: pointer;
-    font-size: 22px;
+    font-size: 21px;
     text-align: center;
     box-sizing: border-box;
 }
@@ -137,9 +140,34 @@ table {
 .header h1 {
     color: white;
     text-align: center;
+    font-size: 3rem;
+    margin: 0;
 }
 
 .header span {
     color: red;
-    font-size: 2.5rem;
+    font-size: 4rem;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    z-index: 2;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
 }
