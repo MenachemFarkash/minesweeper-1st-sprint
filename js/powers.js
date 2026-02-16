@@ -34,10 +34,6 @@ function hintPowerUp(pos = { i, j }, shouldReveal = true) {
     }
 }
 
-function activateSafeClickPowerUp() {
-    isSafeClickActive = !isSafeClickActive
-}
-
 function safeClickPowerUp() {
     if (safeClicks <= 0) return
     let randomTile = pickRandomTile(gBoard)

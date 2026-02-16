@@ -115,6 +115,7 @@ function countMinesAround(pos) {
 }
 
 function handleCellClick(el, i, j) {
+    if (isGameOver) return
     if (isFirstClick) {
         handleFirstClick({ i, j })
         handleTimer()
@@ -149,6 +150,7 @@ function handleFirstClick(pos) {
 }
 
 function handleFlagTile(el, i, j) {
+    if (isGameOver) return
     if (gBoard[i][j].isFlagged === true) {
         el.classList.remove("flagged")
         gBoard[i][j].isFlagged = false
