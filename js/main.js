@@ -29,6 +29,7 @@ function onInit() {
     minesLeftCounter()
     changeSmiley("playing")
     resetLives()
+    updateSafeClickCounter()
     updateHintsCounter()
     updateLivesCounter()
     isGameOver = false
@@ -155,6 +156,8 @@ function handleFlagTile(el, i, j) {
         return
     }
 
+    if (gBoard[i][j].isRevealed) return
+
     gBoard[i][j].isFlagged = true
     el.classList.add("flagged")
     minesLeftCounter()
@@ -244,6 +247,8 @@ function changeGameSize(newSize) {
         numberOfMines = 2
         lives = 1
         hints = 1
+        safeClicks = 1
+        updateSafeClickCounter()
         updateLivesCounter()
         updateHintsCounter()
     }
@@ -251,6 +256,8 @@ function changeGameSize(newSize) {
         numberOfMines = 14
         lives = 2
         hints = 2
+        safeClicks = 2
+        updateSafeClickCounter()
         updateHintsCounter()
         updateLivesCounter()
     }
@@ -258,6 +265,8 @@ function changeGameSize(newSize) {
         numberOfMines = 32
         lives = 3
         hints = 3
+        safeClicks = 3
+        updateSafeClickCounter()
         updateHintsCounter()
         updateLivesCounter()
     }

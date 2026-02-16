@@ -1,3 +1,5 @@
+let isDarkMode = true
+
 function handleTimer() {
     const startTime = new Date()
     let elTimer = document.querySelector(".timer")
@@ -47,6 +49,13 @@ function updateHintsCounter() {
     }
     document.querySelector(".hints").innerText = newHintsStr
 }
+function updateSafeClickCounter() {
+    let newSafeClickStr = ""
+    for (let i = 0; i < safeClicks; i++) {
+        newSafeClickStr += "🔍"
+    }
+    document.querySelector(".safe-click").innerText = newSafeClickStr
+}
 
 function renderLeaderBoard() {
     let records = getFromLocalStorage()
@@ -61,4 +70,18 @@ function renderLeaderBoard() {
     })
 
     document.querySelector(".leader-board-content").innerHTML = recordsHtmlStr
+}
+
+function toggleDarkMode() {
+    if (isDarkMode) {
+        document.querySelector("body").style.setProperty("--text-color", "black")
+        document.querySelector("body").style.setProperty("--background-color", "white")
+        document.querySelector(".dark-mode-toggle").innerText = "🌑"
+        isDarkMode = false
+    } else {
+        document.querySelector("body").style.setProperty("--text-color", "white")
+        document.querySelector("body").style.setProperty("--background-color", "black")
+        document.querySelector(".dark-mode-toggle").innerText = "☀️"
+        isDarkMode = true
+    }
 }

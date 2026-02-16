@@ -1,7 +1,11 @@
 let isHintActive = false
-let hints = 1
+let isSafeClickActive = false
+let hints = 3
+let safeClicks = 3
 
 function activateHintPowerUp() {
+    if (hints <= 0) return
+
     isHintActive = !isHintActive
 }
 
@@ -28,4 +32,19 @@ function hintPowerUp(pos = { i, j }, shouldReveal = true) {
         hints--
         updateHintsCounter()
     }
+}
+
+function activateSafeClickPowerUp() {
+    isSafeClickActive = !isSafeClickActive
+}
+
+function safeClickPowerUp() {
+    if (safeClicks <= 0) return
+    let randomTile = pickRandomTile(gBoard)
+    while (randomTile.isMine || randomTile.isRevealed) {
+        randomTile = pickRandomTile(gBoard)
+    }
+    document.querySelector(`.cell-${randomTile.i}-${randomTile.j}`).classList.add("safe")
+    safeClicks--
+    updateSafeClickCounter()
 }
