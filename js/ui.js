@@ -40,3 +40,25 @@ function updateLivesCounter() {
     }
     document.querySelector(".lives").innerText = newLivesSTR
 }
+function updateHintsCounter() {
+    let newHintsStr = ""
+    for (let i = 0; i < hints; i++) {
+        newHintsStr += "💡"
+    }
+    document.querySelector(".hints").innerText = newHintsStr
+}
+
+function renderLeaderBoard() {
+    let records = getFromLocalStorage()
+    let recordsHtmlStr = ""
+
+    if (!records) return
+    records.forEach((record) => {
+        recordsHtmlStr += `<div class="record">
+                    NAME: <span class="highscore-name">${record.name}</span></br> TIME:
+                    <span class="highscore-time">${record.time}</span>
+                </div>`
+    })
+
+    document.querySelector(".leader-board-content").innerHTML = recordsHtmlStr
+}

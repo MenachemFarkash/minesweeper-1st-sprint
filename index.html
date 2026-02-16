@@ -6,19 +6,27 @@
         <link rel="stylesheet" href="css/main.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bungee&display=swap"
+            rel="stylesheet"
+        />
         <script src="js/utils.js" defer></script>
         <script src="js/ui.js" defer></script>
+        <script src="js/powers.js" defer></script>
+        <script src="js/localStorage.js" defer></script>
         <script src="js/main.js" defer></script>
         <title>Document</title>
     </head>
     <body onload="onInit()" oncontextmenu="return false">
+        <div class="header">
+            <h1>MINE<span>S</span>WEEPER</h1>
+        </div>
         <div class="game-container">
             <section class="round-info">
                 <div class="mines-left-counter">099</div>
                 <div class="smiley-guy" onclick="onInit()">😊</div>
-                <div class="lives">❤️❤️❤️</div>
-                <div class="hints"><span>💡</span><span>💡</span><span>💡</span></div>
+                <div class="lives"></div>
+                <div class="hints" onclick="activateHintPowerUp()"></div>
                 <div class="timer">000</div>
             </section>
             <main>
@@ -33,9 +41,13 @@
                     <button onclick="changeGameSize(12)">12 X 12</button>
                 </div>
             </section>
-            <footer>
-                <h1>MENACHEM FARKASH</h1>
-            </footer>
+        </div>
+        <div class="leader-board">
+            <h1>LEADER BOARD</h1>
+            <div class="leader-board-content"></div>
+        </div>
+        <div class="header">
+            <h1><span>M</span>ENACHEM <span>F</span>ARKASH</h1>
         </div>
     </body>
 </html>

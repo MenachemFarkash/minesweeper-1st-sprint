@@ -22,12 +22,14 @@ let lives = 1
 let gBoard
 
 function onInit() {
+    renderLeaderBoard()
     gBoard = createBoard(SIZE)
     renderBoard()
     clearInterval(gTimer)
     minesLeftCounter()
     changeSmiley("playing")
     resetLives()
+    updateHintsCounter()
     updateLivesCounter()
     isGameOver = false
     isFirstClick = true
@@ -38,7 +40,14 @@ function createBoard(size) {
     for (let i = 0; i < size; i++) {
         newBoard[i] = []
         for (let j = 0; j < size; j++) {
-            newBoard[i].push({ minesAround: 0, isRevealed: false, isMine: false, isFlagged: false, i, j })
+            newBoard[i].push({
+                minesAround: 0,
+                isRevealed: false,
+                isMine: false,
+                isFlagged: false,
+                i,
+                j,
+            })
         }
     }
 
@@ -111,6 +120,11 @@ function handleCellClick(el, i, j) {
         handleTimer()
         //calling this since the el does not exist enymore
         document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
+    }
+
+    if (isHintActive) {
+        hintPowerUp({ i, j }, true)
+        return
     }
 
     el.classList.remove("covered")
@@ -244,16 +258,22 @@ function changeGameSize(newSize) {
     if (newSize === 4) {
         numberOfMines = 2
         lives = 1
+        hints = 1
         updateLivesCounter()
+        updateHintsCounter()
     }
     if (newSize === 8) {
         numberOfMines = 14
         lives = 2
+        hints = 2
+        updateHintsCounter()
         updateLivesCounter()
     }
     if (newSize === 12) {
         numberOfMines = 32
         lives = 3
+        hints = 3
+        updateHintsCounter()
         updateLivesCounter()
     }
     onInit()
