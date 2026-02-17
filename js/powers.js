@@ -59,3 +59,42 @@ function mineExterminatorPowerUp() {
         exterminators--
     }
 }
+
+let lastMovesArray = []
+
+function addBoardToMovesList(board) {
+    const lastMoveBoard = []
+    for (let i = 0; i < board.length; i++) {
+        lastMoveBoard[i] = []
+        for (let j = 0; j < board[0].length; j++) {
+            lastMoveBoard[i][j] = { ...board[i][j] }
+        }
+    }
+
+    lastMovesArray.push(lastMoveBoard)
+}
+
+function eraseMovesHistory() {
+    lastMovesArray = []
+    updateUndoButton()
+}
+
+function undoPowerUp() {
+    const lastMove = lastMovesArray.pop()
+    if (!lastMove) return
+
+    for (let i = 0; i < lastMove.length; i++) {
+        for (let j = 0; j < lastMove[0].length; j++) {
+            const currentItem = lastMove[i][j]
+            if (!currentItem.isRevealed) {
+                document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
+                gBoard[i][j].isRevealed = false
+            }
+        }
+    }
+    updateUndoButton()
+}
+
+function redoPowerUp() {
+    console.log("redo")
+}

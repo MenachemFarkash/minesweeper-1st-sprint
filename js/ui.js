@@ -85,3 +85,14 @@ function toggleDarkMode() {
         isDarkMode = true
     }
 }
+
+function updateUndoButton() {
+    const undoButton = document.querySelector(".undo-button")
+    if (lastMovesArray.length <= 0) {
+        undoButton.disabled = true
+        console.log("disabled")
+    } else {
+        undoButton.disabled = false
+        console.log("enabled")
+    }
+}

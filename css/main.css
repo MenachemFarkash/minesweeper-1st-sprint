@@ -1,6 +1,3 @@
-:root {
-}
-
 body {
     --text-color: white;
     --background-color: black;
@@ -105,7 +102,7 @@ table {
     background-color: #bababa;
 }
 
-.buttons-container button {
+.buttons-container .size-button {
     border: none;
     cursor: pointer;
     width: 100%;
@@ -116,6 +113,25 @@ table {
     border: 15px outset rgb(228, 228, 228);
     font-family: unset;
     color: var(--text-color);
+}
+
+.undo-redo {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.undo-redo button {
+    width: 50%;
+    height: 80px;
+    font-size: 2rem;
+    border: 15px outset rgb(228, 228, 228);
+    background-color: #bababa;
+    cursor: pointer;
+}
+
+.undo-redo button:hover {
+    background-color: #a8a8a8;
 }
 
 .covered {

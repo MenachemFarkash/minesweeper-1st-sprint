@@ -38,9 +38,13 @@
             </main>
             <section>
                 <div class="buttons-container">
-                    <button onclick="changeGameSize(4)">4 X 4</button>
-                    <button onclick="changeGameSize(8)">8 X 8</button>
-                    <button onclick="changeGameSize(12)">12 X 12</button>
+                    <button class="size-button" onclick="changeGameSize(4)">4 X 4</button>
+                    <button class="size-button" onclick="changeGameSize(8)">8 X 8</button>
+                    <button class="size-button" onclick="changeGameSize(12)">12 X 12</button>
+                    <div class="undo-redo">
+                        <button class="undo-button" onclick="undoPowerUp()" disabled>↶</button>
+                        <button onclick="redoPowerUp()" disabled>↷</button>
+                    </div>
                 </div>
             </section>
         </div>

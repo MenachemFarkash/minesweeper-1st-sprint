@@ -139,15 +139,22 @@ function handleCellClick(el, i, j) {
         return
     }
 
-    el.classList.remove("covered")
-    gBoard[i][j].isRevealed = true
     if (gBoard[i][j].isMine) {
+        el.classList.remove("covered")
+        gBoard[i][j].isRevealed = true
+        eraseMovesHistory()
         bombRevealTimeout = setTimeout(() => {
             document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
             gBoard[i][j].isRevealed = false
         }, 1000)
         gameOver()
+        return
     }
+
+    addBoardToMovesList(gBoard)
+    updateUndoButton()
+    el.classList.remove("covered")
+    gBoard[i][j].isRevealed = true
 
     revealeSafeNegTiles({ i, j })
     checkGameWon()
@@ -241,7 +248,9 @@ function revealeSafeNegTiles(pos) {
 
                 if (!gBoard[i][j].isMine && !gBoard[i][j].isRevealed) {
                     const elTile = document.querySelector(`.cell-${i}-${j}`)
-                    handleCellClick(elTile, i, j)
+                    elTile.classList.remove("covered")
+                    gBoard[i][j].isRevealed = true
+                    revealeSafeNegTiles({ i, j })
                 }
             }
         }
