@@ -1,7 +1,7 @@
 "use strict"
 
 let SIZE = 12
-let numberOfMines = 32
+let numberOfMines = 12
 const MINE = "💣"
 const COLORS = {
     1: "#0100f8",
@@ -34,6 +34,8 @@ function onInit() {
     minesLeftCounter()
     changeSmiley("playing")
     resetStats()
+    updateUndoButton()
+    updateRedoButton()
 
     // Powers UI
     updateSafeClickCounter()
@@ -152,7 +154,8 @@ function handleCellClick(el, i, j) {
     }
 
     addBoardToMovesList(gBoard)
-    updateUndoButton()
+    redoMovesArray = []
+    updateRedoButton()
     el.classList.remove("covered")
     gBoard[i][j].isRevealed = true
 

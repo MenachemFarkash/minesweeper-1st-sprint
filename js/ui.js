@@ -96,3 +96,14 @@ function updateUndoButton() {
         console.log("enabled")
     }
 }
+
+function updateRedoButton() {
+    const redoButton = document.querySelector(".redo-button")
+    if (redoMovesArray.length <= 0) {
+        redoButton.disabled = true
+        console.log("disabled")
+    } else {
+        redoButton.disabled = false
+        console.log("enabled")
+    }
+}

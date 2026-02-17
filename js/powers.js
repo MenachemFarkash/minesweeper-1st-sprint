@@ -61,40 +61,69 @@ function mineExterminatorPowerUp() {
 }
 
 let lastMovesArray = []
+let redoMovesArray = []
 
 function addBoardToMovesList(board) {
-    const lastMoveBoard = []
-    for (let i = 0; i < board.length; i++) {
-        lastMoveBoard[i] = []
-        for (let j = 0; j < board[0].length; j++) {
-            lastMoveBoard[i][j] = { ...board[i][j] }
-        }
-    }
-
-    lastMovesArray.push(lastMoveBoard)
+    lastMovesArray.push(copyBoard(board))
+    updateUndoButton()
+    updateRedoButton()
 }
 
 function eraseMovesHistory() {
     lastMovesArray = []
     updateUndoButton()
+    updateRedoButton()
+}
+
+function copyBoard(board) {
+    const copiedBoard = []
+    for (let i = 0; i < board.length; i++) {
+        copiedBoard[i] = []
+        for (let j = 0; j < board[0].length; j++) {
+            copiedBoard[i][j] = { ...board[i][j] }
+        }
+    }
+
+    return copiedBoard
 }
 
 function undoPowerUp() {
-    const lastMove = lastMovesArray.pop()
-    if (!lastMove) return
+    if (!lastMovesArray.length) return
 
-    for (let i = 0; i < lastMove.length; i++) {
-        for (let j = 0; j < lastMove[0].length; j++) {
-            const currentItem = lastMove[i][j]
-            if (!currentItem.isRevealed) {
-                document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
-                gBoard[i][j].isRevealed = false
-            }
-        }
-    }
+    redoMovesArray.push(copyBoard(gBoard))
+
+    const lastMove = lastMovesArray.pop()
+
+    renderUndoOrRedo(lastMove)
+
     updateUndoButton()
+    updateRedoButton()
 }
 
 function redoPowerUp() {
-    console.log("redo")
+    if (!redoMovesArray.length) return
+
+    lastMovesArray.push(copyBoard(gBoard))
+
+    const nextMove = redoMovesArray.pop()
+
+    renderUndoOrRedo(nextMove)
+
+    updateUndoButton()
+    updateRedoButton()
+}
+
+function renderUndoOrRedo(move) {
+    for (let i = 0; i < move.length; i++) {
+        for (let j = 0; j < move[0].length; j++) {
+            gBoard[i][j] = { ...move[i][j] }
+
+            const elCell = document.querySelector(`.cell-${i}-${j}`)
+            if (gBoard[i][j].isRevealed) {
+                elCell.classList.remove("covered")
+            } else {
+                elCell.classList.add("covered")
+            }
+        }
+    }
 }
