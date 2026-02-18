@@ -49,6 +49,7 @@ function updateHintsCounter() {
     }
     document.querySelector(".hints").innerText = newHintsStr
 }
+
 function updateSafeClickCounter() {
     let newSafeClickStr = ""
     for (let i = 0; i < safeClicks; i++) {
@@ -90,10 +91,8 @@ function updateUndoButton() {
     const undoButton = document.querySelector(".undo-button")
     if (lastMovesArray.length <= 0) {
         undoButton.disabled = true
-        console.log("disabled")
     } else {
         undoButton.disabled = false
-        console.log("enabled")
     }
 }
 
@@ -101,9 +100,7 @@ function updateRedoButton() {
     const redoButton = document.querySelector(".redo-button")
     if (redoMovesArray.length <= 0) {
         redoButton.disabled = true
-        console.log("disabled")
     } else {
         redoButton.disabled = false
-        console.log("enabled")
     }
 }

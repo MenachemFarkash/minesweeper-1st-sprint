@@ -1,6 +1,7 @@
 body {
     --text-color: white;
     --background-color: black;
+
     background-color: var(--background-color);
     /* text-align: center; */
     font-family: "Bungee", sans-serif, monospace;
@@ -173,7 +174,7 @@ table {
 }
 
 .header span {
-    color: red;
+    color: rgb(255, 0, 0);
     font-size: 4rem;
 }
 
@@ -197,6 +198,7 @@ footer button {
 
 .hints,
 .safe-click,
-.exterminator {
+.exterminator,
+.super-hint {
     cursor: pointer;
 }

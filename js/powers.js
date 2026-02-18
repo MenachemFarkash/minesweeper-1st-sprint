@@ -1,5 +1,6 @@
 let isHintActive = false
 let isSafeClickActive = false
+let isSuperHintActive = false
 let hints = 3
 let safeClicks = 3
 let exterminators = 1
@@ -10,7 +11,7 @@ function activateHintPowerUp() {
     isHintActive = !isHintActive
 }
 
-function hintPowerUp(pos = { i, j }, shouldReveal = true) {
+function hintPowerUp(pos = { i, j }, shouldReveal) {
     for (var i = pos.i - 1; i <= pos.i + 1; i++) {
         if (i < 0 || i >= gBoard.length) continue
 
@@ -39,10 +40,13 @@ function safeClickPowerUp() {
     if (isFirstClick) return
     if (isGameOver) return
     if (safeClicks <= 0) return
+
+    // TODO: change to an array of safe cells
     let randomTile = pickRandomTile(gBoard)
     while (randomTile.isMine || randomTile.isRevealed) {
         randomTile = pickRandomTile(gBoard)
     }
+
     document.querySelector(`.cell-${randomTile.i}-${randomTile.j}`).classList.add("safe")
     safeClicks--
     updateSafeClickCounter()
@@ -51,6 +55,7 @@ function safeClickPowerUp() {
 function mineExterminatorPowerUp() {
     if (isFirstClick) return
     if (isGameOver) return
+
     const mines = findAllMines()
     for (let i = 0; i < 3; i++) {
         const mine = pickRandomMine(mines)
@@ -60,6 +65,7 @@ function mineExterminatorPowerUp() {
     }
 }
 
+// Undo and Redo logic
 let lastMovesArray = []
 let redoMovesArray = []
 
@@ -119,11 +125,65 @@ function renderUndoOrRedo(move) {
             gBoard[i][j] = { ...move[i][j] }
 
             const elCell = document.querySelector(`.cell-${i}-${j}`)
-            if (gBoard[i][j].isRevealed) {
+            if (gBoard[i][j].isRevealed && !gBoard[i][j].isMine) {
                 elCell.classList.remove("covered")
             } else {
                 elCell.classList.add("covered")
             }
         }
     }
+}
+
+let superHintFirstPos = null
+let superHintSecondPos = null
+
+function setUpSuperHint(isFirstPos, pos) {
+    if (isFirstClick) return
+
+    if (!isSuperHintActive) {
+        isSuperHintActive = true
+        return
+    }
+
+    if (isFirstPos) {
+        superHintFirstPos = pos
+        console.log("first")
+        return
+    }
+
+    if (!isFirstPos) {
+        superHintSecondPos = pos
+        console.log("second")
+        superHintPowerUp()
+    }
+}
+
+function superHintPowerUp() {
+    let topLeft = {
+        i: superHintFirstPos.i < superHintSecondPos.i ? superHintFirstPos.i : superHintSecondPos.i,
+        j: superHintFirstPos.j < superHintSecondPos.j ? superHintFirstPos.j : superHintSecondPos.j,
+    }
+    let bottomRight = {
+        i: superHintFirstPos.i > superHintSecondPos.i ? superHintFirstPos.i : superHintSecondPos.i,
+        j: superHintFirstPos.j > superHintSecondPos.j ? superHintFirstPos.j : superHintSecondPos.j,
+    }
+
+    for (let i = topLeft.i; i <= bottomRight.i; i++) {
+        for (let j = topLeft.j; j <= bottomRight.j; j++) {
+            document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
+        }
+    }
+
+    setTimeout(() => {
+        for (let i = topLeft.i; i <= bottomRight.i; i++) {
+            for (let j = topLeft.j; j <= bottomRight.j; j++) {
+                // const currentItem = gBoard[i][j]
+                if (!gBoard[i][j].isRevealed)
+                    document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
+            }
+        }
+        superHintFirstPos = null
+        superHintSecondPos = null
+        isSuperHintActive = false
+    }, 1500)
 }

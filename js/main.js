@@ -1,7 +1,7 @@
 "use strict"
 
 let SIZE = 12
-let numberOfMines = 12
+let numberOfMines = 32
 const MINE = "💣"
 const COLORS = {
     1: "#0100f8",
@@ -95,6 +95,7 @@ function placeMines(count, pos) {
 function pickRandomTile(board) {
     let tile
     tile = gBoard[getRandomInt(0, board.length)][getRandomInt(0, board[0].length)]
+
     return tile
 }
 
@@ -129,6 +130,7 @@ function countMinesAround(pos) {
 
 function handleCellClick(el, i, j) {
     if (isGameOver) return
+
     if (isFirstClick) {
         handleFirstClick({ i, j })
         handleTimer()
@@ -141,9 +143,20 @@ function handleCellClick(el, i, j) {
         return
     }
 
+    if (isSuperHintActive) {
+        if (!superHintFirstPos) {
+            setUpSuperHint(true, { i, j })
+            return
+        } else {
+            setUpSuperHint(false, { i, j })
+            return
+        }
+    }
+
     if (gBoard[i][j].isMine) {
         el.classList.remove("covered")
         gBoard[i][j].isRevealed = true
+
         eraseMovesHistory()
         bombRevealTimeout = setTimeout(() => {
             document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
@@ -156,6 +169,7 @@ function handleCellClick(el, i, j) {
     addBoardToMovesList(gBoard)
     redoMovesArray = []
     updateRedoButton()
+
     el.classList.remove("covered")
     gBoard[i][j].isRevealed = true
 

@@ -3,6 +3,10 @@ const records = []
 
 function uploadToLocalStorage(name, time) {
     let oldRecords = JSON.parse(localStorage.getItem("records"))
+    if (!oldRecords) {
+        oldRecords = []
+    }
+
     oldRecords.push({ name, time })
     localStorage.setItem("records", JSON.stringify(oldRecords))
 }
