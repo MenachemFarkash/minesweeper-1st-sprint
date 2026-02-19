@@ -199,6 +199,7 @@ footer button {
 .hints,
 .safe-click,
 .exterminator,
-.super-hint {
+.super-hint,
+.menaul-place-mode {
     cursor: pointer;
 }

@@ -55,14 +55,15 @@ function safeClickPowerUp() {
 function mineExterminatorPowerUp() {
     if (isFirstClick) return
     if (isGameOver) return
+    if (exterminators <= 0) return
 
     const mines = findAllMines()
     for (let i = 0; i < 3; i++) {
         const mine = pickRandomMine(mines)
         gBoard[mine.i][mine.j].isMine = false
         setupTileNumbers()
-        exterminators--
     }
+    exterminators--
 }
 
 // Undo and Redo logic

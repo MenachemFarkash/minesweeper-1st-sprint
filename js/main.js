@@ -105,8 +105,9 @@ function setupTileNumbers() {
             const currentItem = gBoard[i][j]
             if (currentItem.isMine) continue
             currentItem.minesAround = countMinesAround({ i, j })
-            document.querySelector(`.cell-${i}-${j}`).innerText =
-                currentItem.minesAround > 0 ? currentItem.minesAround : ""
+            let currentEl = document.querySelector(`.cell-${i}-${j}`)
+            currentEl.innerText = currentItem.minesAround > 0 ? currentItem.minesAround : ""
+            currentEl.style.color = COLORS[currentItem.minesAround]
         }
     }
 }
@@ -130,6 +131,11 @@ function countMinesAround(pos) {
 
 function handleCellClick(el, i, j) {
     if (isGameOver) return
+
+    if (isManualPlaceModeActive) {
+        placeMine({ i, j })
+        return
+    }
 
     if (isFirstClick) {
         handleFirstClick({ i, j })
@@ -178,10 +184,15 @@ function handleCellClick(el, i, j) {
 }
 
 function handleFirstClick(pos) {
-    placeMines(numberOfMines, { i: pos.i, j: pos.j })
-    setupTileNumbers()
-    isFirstClick = false
-    renderBoard()
+    if (wasMinesManuallyPlaced) {
+        isFirstClick = false
+        renderBoard()
+    } else {
+        placeMines(numberOfMines, { i: pos.i, j: pos.j })
+        setupTileNumbers()
+        isFirstClick = false
+        renderBoard()
+    }
 }
 
 function handleFlagTile(el, i, j) {
