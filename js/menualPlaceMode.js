@@ -25,5 +25,5 @@ function placeMine(pos = { i, j }) {
     const currentItem = document.querySelector(`.cell-${pos.i}-${pos.j}`)
     currentItem.innerText = MINE
 
-    setupTileNumbers()
+    setupCellNumbers()
 }

@@ -42,12 +42,12 @@ function safeClickPowerUp() {
     if (safeClicks <= 0) return
 
     // TODO: change to an array of safe cells
-    let randomTile = pickRandomTile(gBoard)
-    while (randomTile.isMine || randomTile.isRevealed) {
-        randomTile = pickRandomTile(gBoard)
+    let randomCell = pickRandomCell(gBoard)
+    while (randomCell.isMine || randomCell.isRevealed) {
+        randomCell = pickRandomCell(gBoard)
     }
 
-    document.querySelector(`.cell-${randomTile.i}-${randomTile.j}`).classList.add("safe")
+    document.querySelector(`.cell-${randomCell.i}-${randomCell.j}`).classList.add("safe")
     safeClicks--
     updateSafeClickCounter()
 }
@@ -61,7 +61,7 @@ function mineExterminatorPowerUp() {
     for (let i = 0; i < 3; i++) {
         const mine = pickRandomMine(mines)
         gBoard[mine.i][mine.j].isMine = false
-        setupTileNumbers()
+        setupCellNumbers()
     }
     exterminators--
 }

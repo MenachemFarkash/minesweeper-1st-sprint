@@ -16,7 +16,7 @@ const COLORS = {
 let isFirstClick = true
 let isGameOver = false
 let gTimer
-let bombRevealTimeout
+let mineRevealTimeout
 let gSmileyState = "playing"
 let lives = 1
 let gBoard
@@ -72,7 +72,7 @@ function renderBoard() {
         boardHtml += "<tr>"
         for (let j = 0; j < gBoard[0].length; j++) {
             boardHtml += `
-      <td class="cell cell-${i}-${j} covered" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="handleCellClick(this,${i},${j})" oncontextmenu="handleFlagTile(this, ${i},${j})">
+      <td class="cell cell-${i}-${j} covered" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="onCellClick(this,${i},${j})" oncontextmenu="onFlagCell(this, ${i},${j})">
       ${gBoard[i][j].isMine ? MINE : gBoard[i][j].minesAround > 0 ? gBoard[i][j].minesAround : ""}
       </td>`
         }
@@ -84,22 +84,22 @@ function renderBoard() {
 
 function placeMines(count, pos) {
     for (let i = 0; i < count; i++) {
-        let randomTile = pickRandomTile(gBoard)
-        while (randomTile.isMine || (pos.i === randomTile.i && pos.j === randomTile.j)) {
-            randomTile = pickRandomTile(gBoard)
+        let randomCell = pickRandomCell(gBoard)
+        while (randomCell.isMine || (pos.i === randomCell.i && pos.j === randomCell.j)) {
+            randomCell = pickRandomCell(gBoard)
         }
-        gBoard[randomTile.i][randomTile.j].isMine = true
+        gBoard[randomCell.i][randomCell.j].isMine = true
     }
 }
 
-function pickRandomTile(board) {
-    let tile
-    tile = gBoard[getRandomInt(0, board.length)][getRandomInt(0, board[0].length)]
+function pickRandomCell(board) {
+    let cell
+    cell = gBoard[getRandomInt(0, board.length)][getRandomInt(0, board[0].length)]
 
-    return tile
+    return cell
 }
 
-function setupTileNumbers() {
+function setupCellNumbers() {
     for (let i = 0; i < gBoard.length; i++) {
         for (let j = 0; j < gBoard[0].length; j++) {
             const currentItem = gBoard[i][j]
@@ -129,7 +129,7 @@ function countMinesAround(pos) {
     return count
 }
 
-function handleCellClick(el, i, j) {
+function onCellClick(el, i, j) {
     if (isGameOver) return
 
     if (isManualPlaceModeActive) {
@@ -140,6 +140,7 @@ function handleCellClick(el, i, j) {
     if (isFirstClick) {
         handleFirstClick({ i, j })
         handleTimer()
+
         //calling this since the el does not exist enymore
         document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
     }
@@ -160,13 +161,11 @@ function handleCellClick(el, i, j) {
     }
 
     if (gBoard[i][j].isMine) {
-        el.classList.remove("covered")
-        gBoard[i][j].isRevealed = true
+        removeCellCover({ i, j })
 
         eraseMovesHistory()
-        bombRevealTimeout = setTimeout(() => {
-            document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
-            gBoard[i][j].isRevealed = false
+        mineRevealTimeout = setTimeout(() => {
+            addCellCover({ i, j })
         }, 1000)
         gameOver()
         return
@@ -179,7 +178,7 @@ function handleCellClick(el, i, j) {
     el.classList.remove("covered")
     gBoard[i][j].isRevealed = true
 
-    revealeSafeNegTiles({ i, j })
+    revealeSafeNegCells({ i, j })
     checkGameWon()
 }
 
@@ -189,13 +188,13 @@ function handleFirstClick(pos) {
         renderBoard()
     } else {
         placeMines(numberOfMines, { i: pos.i, j: pos.j })
-        setupTileNumbers()
+        setupCellNumbers()
         isFirstClick = false
         renderBoard()
     }
 }
 
-function handleFlagTile(el, i, j) {
+function onFlagCell(el, i, j) {
     if (isGameOver) return
     if (gBoard[i][j].isFlagged === true) {
         el.classList.remove("flagged")
@@ -220,8 +219,7 @@ function gameOver() {
             for (let j = 0; j < gBoard[0].length; j++) {
                 const currentCell = gBoard[i][j]
                 if (currentCell.isMine) {
-                    currentCell.isRevealed = true
-                    document.querySelector(`.cell-${i}-${j}`).classList.remove("covered")
+                    removeCellCover({ i, j })
                 }
             }
         }
@@ -229,7 +227,7 @@ function gameOver() {
         isGameOver = true
         changeSmiley("lose")
         clearInterval(gTimer)
-        clearTimeout(bombRevealTimeout)
+        clearTimeout(mineRevealTimeout)
         lives--
         updateLivesCounter()
     } else {
@@ -239,7 +237,7 @@ function gameOver() {
 }
 
 function checkGameWon() {
-    let completedTilesCount = 0
+    let completedCellsCount = 0
     for (let i = 0; i < gBoard.length; i++) {
         for (let j = 0; j < gBoard[0].length; j++) {
             const currentCell = gBoard[i][j]
@@ -249,13 +247,13 @@ function checkGameWon() {
                 return
             }
 
-            // if not all tiles are revealed
+            // if not all cells are revealed
             if (!currentCell.isRevealed && !currentCell.isMine) {
                 return
             }
 
-            completedTilesCount++
-            if (completedTilesCount === SIZE * SIZE) {
+            completedCellsCount++
+            if (completedCellsCount === SIZE * SIZE) {
                 clearInterval(gTimer)
                 changeSmiley("win")
             }
@@ -263,7 +261,7 @@ function checkGameWon() {
     }
 }
 
-function revealeSafeNegTiles(pos) {
+function revealeSafeNegCells(pos) {
     if (gBoard[pos.i][pos.j].isMine) return
 
     if (gBoard[pos.i][pos.j].minesAround === 0) {
@@ -275,14 +273,29 @@ function revealeSafeNegTiles(pos) {
                 if (i === pos.i && j === pos.j) continue
 
                 if (!gBoard[i][j].isMine && !gBoard[i][j].isRevealed) {
-                    const elTile = document.querySelector(`.cell-${i}-${j}`)
-                    elTile.classList.remove("covered")
-                    gBoard[i][j].isRevealed = true
-                    revealeSafeNegTiles({ i, j })
+                    revealCell({ i, j })
                 }
             }
         }
     }
+}
+
+function removeCellCover(pos) {
+    let currentCell = gBoard[pos.i][pos.j]
+    currentCell.isRevealed = true
+    document.querySelector(`.cell-${pos.i}-${pos.j}`).classList.remove("covered")
+}
+function addCellCover(pos) {
+    let currentCell = gBoard[pos.i][pos.j]
+    currentCell.isRevealed = false
+    document.querySelector(`.cell-${pos.i}-${pos.j}`).classList.add("covered")
+}
+
+function revealCell(pos) {
+    const elCell = document.querySelector(`.cell-${pos.i}-${pos.j}`)
+    elCell.classList.remove("covered")
+    gBoard[pos.i][pos.j].isRevealed = true
+    revealeSafeNegCells({ i: pos.i, j: pos.j })
 }
 
 function resetStats() {
