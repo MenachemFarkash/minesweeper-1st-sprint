@@ -203,3 +203,68 @@ footer button {
 .menaul-place-mode {
     cursor: pointer;
 }
+
+.player-name-modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.375);
+    width: 100%;
+    height: 100%;
+}
+
+.player-name-modal {
+    position: absolute;
+    background-color: #bababa;
+    width: 450px;
+    height: 250px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    box-shadow:
+        inset 3px 3px 0px 0px #ffffff,
+        inset -3px -3px 0px 0px #7b7b7b;
+}
+
+.player-name-modal input {
+    margin: 10px auto;
+    width: 80%;
+    height: 3rem;
+    font-size: 3rem;
+    font-family: inherit;
+    text-align: center;
+    background-color: transparent;
+    border: unset;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.player-name-modal button {
+    width: 120px;
+    height: 45px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    background-color: #bababa;
+    border: unset;
+    box-shadow:
+        inset 3px 3px 0px 0px #ffffff,
+        inset -3px -3px 0px 0px #7b7b7b;
+
+    cursor: pointer;
+}
+
+.player-name-modal button:hover {
+    background-color: #989898;
+}
+
+.hidden {
+    display: none;
+}

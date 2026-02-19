@@ -45,6 +45,12 @@ function onInit() {
     // Global Booleans
     isGameOver = false
     isFirstClick = true
+
+    // localStorage
+    if (!checkForPlayerName()) {
+        document.querySelector(".player-name-modal-container").classList.remove("hidden")
+        console.log(checkForPlayerName())
+    }
 }
 
 function createBoard(size) {
@@ -105,6 +111,7 @@ function setupCellNumbers() {
             const currentItem = gBoard[i][j]
             if (currentItem.isMine) continue
             currentItem.minesAround = countMinesAround({ i, j })
+
             let currentEl = document.querySelector(`.cell-${i}-${j}`)
             currentEl.innerText = currentItem.minesAround > 0 ? currentItem.minesAround : ""
             currentEl.style.color = COLORS[currentItem.minesAround]
@@ -256,6 +263,11 @@ function checkGameWon() {
             if (completedCellsCount === SIZE * SIZE) {
                 clearInterval(gTimer)
                 changeSmiley("win")
+                uploadToLocalStorage(
+                    localStorage.getItem("playerName"),
+                    document.querySelector(".timer").innerText,
+                )
+                renderLeaderBoard()
             }
         }
     }

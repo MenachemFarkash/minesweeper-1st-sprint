@@ -1,5 +1,12 @@
-const user = { name: "manechem", time: 5 }
-const records = []
+function setupUserName() {
+    let inputContent = document.querySelector(".player-name-input").value
+    localStorage.setItem("playerName", inputContent)
+    document.querySelector(".player-name-modal-container").classList.add("hidden")
+}
+
+function checkForPlayerName() {
+    return localStorage.getItem("playerName") ? true : false
+}
 
 function uploadToLocalStorage(name, time) {
     let oldRecords = JSON.parse(localStorage.getItem("records"))
