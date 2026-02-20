@@ -1,5 +1,3 @@
-console.log("hi from menual mines placing mode")
-
 let isManualPlaceModeActive = false
 let wasMinesManuallyPlaced = false
 

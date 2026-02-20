@@ -268,3 +268,7 @@ footer button {
 .hidden {
     display: none;
 }
+
+.highlight-power {
+    background-color: rgb(255, 255, 190);
+}

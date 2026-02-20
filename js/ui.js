@@ -104,3 +104,17 @@ function updateRedoButton() {
         redoButton.disabled = false
     }
 }
+
+const powersSelectors = ["hints", "safe-click", "exterminator", "super-hint", "menaul-place-mode"]
+
+function togglePowersHighlight(powerToActivate = "") {
+    powersSelectors.forEach((power) => {
+        if (power !== powerToActivate) {
+            document.querySelector(`.${power}`).classList.remove("highlight-power")
+        }
+
+        if (powerToActivate === "none") return
+
+        document.querySelector(`.${powerToActivate}`).classList.add("highlight-power")
+    })
+}

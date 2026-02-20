@@ -34,6 +34,9 @@ function onInit() {
     minesLeftCounter()
     changeSmiley("playing")
     resetStats()
+
+    lastMovesArray = []
+    redoMovesArray = []
     updateUndoButton()
     updateRedoButton()
 
@@ -41,6 +44,7 @@ function onInit() {
     updateSafeClickCounter()
     updateHintsCounter()
     updateLivesCounter()
+    togglePowersHighlight("none")
 
     // Global Booleans
     isGameOver = false
@@ -154,6 +158,8 @@ function onCellClick(el, i, j) {
 
     if (isHintActive) {
         hintPowerUp({ i, j }, true)
+        togglePowersHighlight("none")
+
         return
     }
 

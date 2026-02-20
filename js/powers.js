@@ -7,8 +7,11 @@ let exterminators = 1
 
 function activateHintPowerUp() {
     if (hints <= 0) return
+    if (isFirstClick) return
 
     isHintActive = !isHintActive
+
+    isHintActive ? togglePowersHighlight("hints") : togglePowersHighlight("none")
 }
 
 function hintPowerUp(pos = { i, j }, shouldReveal) {
@@ -143,12 +146,23 @@ function setUpSuperHint(isFirstPos, pos) {
 
     if (!isSuperHintActive) {
         isSuperHintActive = true
+        togglePowersHighlight("super-hint")
         return
     }
 
     if (isFirstPos) {
         superHintFirstPos = pos
         console.log("first")
+        return
+    }
+
+    //
+    if (!isFirstPos && !superHintFirstPos) {
+        superHintFirstPos = null
+        superHintSecondPos = null
+        isFirstPos = true
+        isSuperHintActive = false
+        togglePowersHighlight("none")
         return
     }
 
@@ -178,7 +192,6 @@ function superHintPowerUp() {
     setTimeout(() => {
         for (let i = topLeft.i; i <= bottomRight.i; i++) {
             for (let j = topLeft.j; j <= bottomRight.j; j++) {
-                // const currentItem = gBoard[i][j]
                 if (!gBoard[i][j].isRevealed)
                     document.querySelector(`.cell-${i}-${j}`).classList.add("covered")
             }
@@ -187,4 +200,5 @@ function superHintPowerUp() {
         superHintSecondPos = null
         isSuperHintActive = false
     }, 1500)
+    togglePowersHighlight("none")
 }
