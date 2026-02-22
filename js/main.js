@@ -274,6 +274,12 @@ function checkGameWon() {
                     document.querySelector(".timer").innerText,
                 )
                 renderLeaderBoard()
+
+                // undo and redo should be cleared when the game has ended
+                lastMovesArray = []
+                redoMovesArray = []
+                updateRedoButton()
+                updateUndoButton()
             }
         }
     }

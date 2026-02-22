@@ -19,47 +19,51 @@
         <title>Document</title>
     </head>
     <body onload="onInit()" oncontextmenu="return false">
-        <div class="header">
-            <h1>MINE<span>S</span>WEEPER</h1>
-        </div>
-        <div class="game-container">
-            <section class="round-info">
+        <nav class="navbar">
+            <div class="header">
+                <h1>MINE<span>S</span>WEEPER</h1>
+            </div>
+            <div class="global-info">
                 <div class="mines-left-counter">099</div>
                 <div class="timer">000</div>
                 <div class="smiley-guy" onclick="onInit()">😊</div>
                 <div class="lives"></div>
+            </div>
+        </nav>
+        <aside class="sidebar">
+            <div class="buttons-container">
+                <button class="size-button" onclick="changeGameSize(4)">4 X 4</button>
+                <button class="size-button" onclick="changeGameSize(8)">8 X 8</button>
+                <button class="size-button" onclick="changeGameSize(12)">12 X 12</button>
+                <div class="undo-redo">
+                    <button class="undo-button" onclick="undoPowerUp()" disabled>↶</button>
+                    <button class="redo-button" onclick="redoPowerUp()" disabled>↷</button>
+                </div>
+            </div>
+        </aside>
+        <div class="game-container">
+            <table>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="powers-container">
+            <section class="round-powers">
                 <div class="hints" onclick="activateHintPowerUp()"></div>
                 <div class="safe-click" onclick="safeClickPowerUp()"></div>
                 <div class="exterminator" onclick="mineExterminatorPowerUp()">🛟</div>
                 <div class="super-hint" onclick="setUpSuperHint(false, null)">👑</div>
                 <div class="menaul-place-mode" onclick="prepareBoardForPlacing()">💣</div>
             </section>
-            <main>
-                <table>
-                    <tbody></tbody>
-                </table>
-            </main>
-            <section>
-                <div class="buttons-container">
-                    <button class="size-button" onclick="changeGameSize(4)">4 X 4</button>
-                    <button class="size-button" onclick="changeGameSize(8)">8 X 8</button>
-                    <button class="size-button" onclick="changeGameSize(12)">12 X 12</button>
-                    <div class="undo-redo">
-                        <button class="undo-button" onclick="undoPowerUp()" disabled>↶</button>
-                        <button class="redo-button" onclick="redoPowerUp()" disabled>↷</button>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div class="leader-board">
-            <h1>LEADER BOARD</h1>
-            <div class="leader-board-content"></div>
-        </div>
-        <div class="header">
-            <h1><span>M</span>ENACHEM <span>F</span>ARKASH</h1>
         </div>
         <footer>
+            <div class="leader-board">
+                <h1>LEADER BOARD</h1>
+                <div class="leader-board-content"></div>
+            </div>
             <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
+            <div class="header">
+                <h1><span>M</span>ENACHEM <span>F</span>ARKASH</h1>
+            </div>
         </footer>
         <div class="player-name-modal-container hidden">
             <modal class="player-name-modal">
