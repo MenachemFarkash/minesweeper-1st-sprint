@@ -5,8 +5,35 @@ let hints = 3
 let safeClicks = 3
 let exterminators = 1
 
+const powers = {
+    hint: {
+        name: "hints",
+        uses: 3,
+        activate() {
+            if (this.uses <= 0) return
+            currentActivePower = this.name
+            activateHintPowerUp()
+        },
+    },
+    superHint: {
+        name: "super-hint",
+        uses: 1,
+        activate() {
+            if (this.uses <= 0) return
+            currentActivePower = this.name
+            setUpSuperHint(false, null)
+        },
+    },
+}
+
+let currentActivePower = null
+
+function changeActivePower(power) {
+    currentActivePower = power
+}
+
 function activateHintPowerUp() {
-    if (hints <= 0) return
+    if (currentActivePower !== powers.hint.name) return
     if (isFirstClick) return
 
     isHintActive = !isHintActive
@@ -32,10 +59,12 @@ function hintPowerUp(pos = { i, j }, shouldReveal) {
     }
 
     if (shouldReveal) {
+        powers.hint.uses--
+        currentActivePower = null
         setTimeout(() => hintPowerUp(pos, false), 1000)
         isHintActive = false
-        hints--
         updateHintsCounter()
+        togglePowersHighlight()
     }
 }
 
@@ -142,6 +171,7 @@ let superHintFirstPos = null
 let superHintSecondPos = null
 
 function setUpSuperHint(isFirstPos, pos) {
+    if (currentActivePower !== powers.superHint.name) return
     if (isFirstClick) return
 
     if (!isSuperHintActive) {
@@ -163,6 +193,8 @@ function setUpSuperHint(isFirstPos, pos) {
         isFirstPos = true
         isSuperHintActive = false
         togglePowersHighlight("none")
+        powers.superHint.uses--
+        currentActivePower = null
         return
     }
 
@@ -201,4 +233,8 @@ function superHintPowerUp() {
         isSuperHintActive = false
     }, 1500)
     togglePowersHighlight("none")
+    currentActivePower = null
+    powers.superHint.uses--
+    updateSuperHintsCounter()
+    togglePowersHighlight()
 }

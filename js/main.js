@@ -41,10 +41,11 @@ function onInit() {
     updateRedoButton()
 
     // Powers UI
+    currentActivePower = null
     updateSafeClickCounter()
     updateHintsCounter()
     updateLivesCounter()
-    togglePowersHighlight("none")
+    togglePowersHighlight()
 
     // Global Booleans
     isGameOver = false
@@ -158,8 +159,7 @@ function onCellClick(el, i, j) {
 
     if (isHintActive) {
         hintPowerUp({ i, j }, true)
-        togglePowersHighlight("none")
-
+        currentActivePower = null
         return
     }
 
@@ -325,23 +325,27 @@ function revealCell(pos) {
 function resetStats() {
     if (SIZE === 4) {
         lives = 1
-        hints = 1
+        powers.hint.uses = 1
+        powers.superHint.uses = 0
         safeClicks = 1
     }
     if (SIZE === 8) {
         lives = 2
-        hints = 2
+        powers.hint.uses = 2
+        powers.superHint.uses = 1
         safeClicks = 2
     }
     if (SIZE === 12) {
         lives = 3
-        hints = 3
+        powers.hint.uses = 3
+        powers.superHint.uses = 2
         safeClicks = 3
     }
 
     updateSafeClickCounter()
     updateLivesCounter()
     updateHintsCounter()
+    updateSuperHintsCounter()
 }
 
 function changeGameSize(newSize) {

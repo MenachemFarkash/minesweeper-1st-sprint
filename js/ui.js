@@ -44,10 +44,17 @@ function updateLivesCounter() {
 }
 function updateHintsCounter() {
     let newHintsStr = ""
-    for (let i = 0; i < hints; i++) {
+    for (let i = 0; i <= powers.hint.uses - 1; i++) {
         newHintsStr += "💡"
     }
     document.querySelector(".hints").innerText = newHintsStr
+}
+function updateSuperHintsCounter() {
+    let newSuperHintsStr = ""
+    for (let i = 0; i <= powers.superHint.uses - 1; i++) {
+        newSuperHintsStr += "👑"
+    }
+    document.querySelector(".super-hint").innerText = newSuperHintsStr
 }
 
 function updateSafeClickCounter() {
@@ -107,14 +114,15 @@ function updateRedoButton() {
 
 const powersSelectors = ["hints", "safe-click", "exterminator", "super-hint", "menaul-place-mode"]
 
-function togglePowersHighlight(powerToActivate = "") {
-    powersSelectors.forEach((power) => {
-        if (power !== powerToActivate) {
-            document.querySelector(`.${power}`).classList.remove("highlight-power")
+function togglePowersHighlight() {
+    console.log(currentActivePower)
+    Object.entries(powers).forEach((power) => {
+        if (currentActivePower !== power[1].name) {
+            document.querySelector(`.${power[1].name}`).classList.remove("highlight-power")
         }
 
-        if (powerToActivate === "none") return
+        if (currentActivePower === null) return
 
-        document.querySelector(`.${powerToActivate}`).classList.add("highlight-power")
+        document.querySelector(`.${currentActivePower}`).classList.add("highlight-power")
     })
 }
