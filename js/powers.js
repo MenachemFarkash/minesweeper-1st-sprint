@@ -221,6 +221,13 @@ function superHintPowerUp() {
         }
     }
 
+    for (let i = 0; i < gBoard.length; i++) {
+        for (let j = 0; j < gBoard[0].length; j++) {
+            const currentItem = document.querySelector(`.cell-${i}-${j}`)
+            currentItem.classList.remove("super-hint-highlight-preview")
+        }
+    }
+
     setTimeout(() => {
         for (let i = topLeft.i; i <= bottomRight.i; i++) {
             for (let j = topLeft.j; j <= bottomRight.j; j++) {

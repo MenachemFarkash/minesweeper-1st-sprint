@@ -126,3 +126,30 @@ function togglePowersHighlight() {
         document.querySelector(`.${currentActivePower}`).classList.add("highlight-power")
     })
 }
+
+function hightlightSuperHint(pos) {
+    if (currentActivePower !== powers.superHint.name) return
+    if (!superHintFirstPos) return
+
+    let topLeft = {
+        i: superHintFirstPos.i < pos.i ? superHintFirstPos.i : pos.i,
+        j: superHintFirstPos.j < pos.j ? superHintFirstPos.j : pos.j,
+    }
+    let bottomRight = {
+        i: superHintFirstPos.i > pos.i ? superHintFirstPos.i : pos.i,
+        j: superHintFirstPos.j > pos.j ? superHintFirstPos.j : pos.j,
+    }
+
+    for (let i = 0; i < gBoard.length; i++) {
+        for (let j = 0; j < gBoard[0].length; j++) {
+            const currentItem = document.querySelector(`.cell-${i}-${j}`)
+            currentItem.classList.remove("super-hint-highlight-preview")
+        }
+    }
+
+    for (let i = topLeft.i; i <= bottomRight.i; i++) {
+        for (let j = topLeft.j; j <= bottomRight.j; j++) {
+            document.querySelector(`.cell-${i}-${j}`).classList.add("super-hint-highlight-preview")
+        }
+    }
+}

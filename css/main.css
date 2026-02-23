@@ -325,3 +325,7 @@ footer button {
         font-size: 2rem;
     }
 }
+
+.cell.super-hint-highlight-preview::before {
+    background-color: rgb(186, 186, 0);
+}

@@ -83,7 +83,7 @@ function renderBoard() {
         boardHtml += "<tr>"
         for (let j = 0; j < gBoard[0].length; j++) {
             boardHtml += `
-      <td class="cell cell-${i}-${j} covered" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="onCellClick(this,${i},${j})" oncontextmenu="onFlagCell(this, ${i},${j})">
+      <td class="cell cell-${i}-${j} covered" style="color:${COLORS[gBoard[i][j].minesAround]};" onclick="onCellClick(this,${i},${j})" oncontextmenu="onFlagCell(this, ${i},${j})" onmouseenter="hightlightSuperHint({i:${i},j:${j}})">
       ${gBoard[i][j].isMine ? MINE : gBoard[i][j].minesAround > 0 ? gBoard[i][j].minesAround : ""}
       </td>`
         }
