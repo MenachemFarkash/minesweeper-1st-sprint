@@ -1,7 +1,10 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     --text-color: white;
     --background-color: black;
-    height: 98vh;
     max-width: 1450px;
     margin: auto;
 
@@ -54,13 +57,14 @@ footer {
 
 .game-container {
     grid-area: main;
+    height: max-content;
     display: flex;
     justify-content: center;
 }
 
 .leader-board {
     background-color: #bababa;
-    width: 100%;
+    width: 95%;
     max-height: 500px;
     border: 7px inset rgb(0, 0, 0);
 }
@@ -101,7 +105,7 @@ table {
     background-color: #bababa;
     width: clamp(45px, 5vw, 50px);
     height: clamp(45px, 5vw, 50px);
-    font-size: clamp(20px, 3.5vw, 32px);
+    font-size: 32px;
     cursor: pointer;
     text-align: center;
 }
@@ -130,7 +134,7 @@ table {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px;
+    height: 70px;
     text-align: right;
     font-size: 2rem;
     border: 15px outset rgb(228, 228, 228);
@@ -142,7 +146,6 @@ table {
     justify-content: start;
     width: 200px;
     height: 90%;
-    box-sizing: border-box;
     border: 15px inset rgb(147, 147, 147);
     background-color: #bababa;
 }
@@ -242,7 +245,8 @@ footer button {
     cursor: pointer;
 }
 
-.player-name-modal-container {
+.player-name-modal-container,
+.seed-modal-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -251,7 +255,8 @@ footer button {
     height: 100%;
 }
 
-.player-name-modal {
+.player-name-modal,
+.seed-modal {
     position: absolute;
     background-color: #bababa;
     width: 450px;
@@ -272,11 +277,12 @@ footer button {
         inset -3px -3px 0px 0px #7b7b7b;
 }
 
-.player-name-modal input {
+.player-name-modal input,
+.seed-modal input {
     margin: 10px auto;
     width: 80%;
     height: 3rem;
-    font-size: 3rem;
+    font-size: 2rem;
     font-family: inherit;
     text-align: center;
     background-color: transparent;
@@ -285,7 +291,8 @@ footer button {
     outline: none;
 }
 
-.player-name-modal button {
+.player-name-modal button,
+.seed-modal button {
     width: 120px;
     height: 45px;
     margin-bottom: 1rem;
@@ -327,5 +334,5 @@ footer button {
 }
 
 .cell.super-hint-highlight-preview::before {
-    background-color: rgb(186, 186, 0);
+    background-color: rgb(157, 0, 255);
 }

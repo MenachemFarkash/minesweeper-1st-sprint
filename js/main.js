@@ -20,12 +20,14 @@ let mineRevealTimeout
 let gSmileyState = "playing"
 let lives = 1
 let gBoard
+let gSeed
 
 function onInit() {
     // Board
     renderLeaderBoard()
     gBoard = createBoard(SIZE)
     renderBoard()
+    initSeed()
 
     // Intervals
     clearInterval(gTimer)
@@ -54,7 +56,6 @@ function onInit() {
     // localStorage
     if (!checkForPlayerName()) {
         document.querySelector(".player-name-modal-container").classList.remove("hidden")
-        console.log(checkForPlayerName())
     }
 }
 

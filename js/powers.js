@@ -182,7 +182,6 @@ function setUpSuperHint(isFirstPos, pos) {
 
     if (isFirstPos) {
         superHintFirstPos = pos
-        console.log("first")
         return
     }
 
@@ -200,7 +199,6 @@ function setUpSuperHint(isFirstPos, pos) {
 
     if (!isFirstPos) {
         superHintSecondPos = pos
-        console.log("second")
         superHintPowerUp()
     }
 }

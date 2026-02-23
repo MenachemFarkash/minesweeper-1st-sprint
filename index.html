@@ -15,10 +15,11 @@
         <script src="js/powers.js" defer></script>
         <script src="js/localStorage.js" defer></script>
         <script src="js/menualPlaceMode.js" defer></script>
+        <script src="js/seed.js" defer></script>
         <script src="js/main.js" defer></script>
-        <title>Document</title>
+        <title>Minesweeper</title>
     </head>
-    <body onload="onInit()" oncontextmenu="return false">
+    <body onload="onInit()" oncontextmenu="return false" onkeyup="showSeedModal(event)">
         <nav class="navbar">
             <div class="header">
                 <h1>MINE<span>S</span>WEEPER</h1>
@@ -70,6 +71,13 @@
                 <h1>Please enter your name</h1>
                 <input class="player-name-input" type="text" placeholder="MY NAME IS" />
                 <button onclick="setupUserName()">Call me that</button>
+            </modal>
+        </div>
+        <div class="seed-modal-container hidden">
+            <modal class="seed-modal">
+                <h1>Please enter your seed</h1>
+                <input class="seed-input" type="text" placeholder="empty = random" />
+                <button onclick="initSeed()">Play that seed</button>
             </modal>
         </div>
     </body>

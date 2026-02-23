@@ -115,7 +115,6 @@ function updateRedoButton() {
 const powersSelectors = ["hints", "safe-click", "exterminator", "super-hint", "menaul-place-mode"]
 
 function togglePowersHighlight() {
-    console.log(currentActivePower)
     Object.entries(powers).forEach((power) => {
         if (currentActivePower !== power[1].name) {
             document.querySelector(`.${power[1].name}`).classList.remove("highlight-power")
@@ -151,5 +150,11 @@ function hightlightSuperHint(pos) {
         for (let j = topLeft.j; j <= bottomRight.j; j++) {
             document.querySelector(`.cell-${i}-${j}`).classList.add("super-hint-highlight-preview")
         }
+    }
+}
+
+function showSeedModal(ev) {
+    if (ev.key === "s") {
+        document.querySelector(".seed-modal-container").classList.toggle("hidden")
     }
 }

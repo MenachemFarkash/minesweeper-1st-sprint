@@ -1,7 +1,12 @@
+// function getRandomInt(min, max) {
+//     const minCeiled = Math.ceil(min)
+//     const maxFloored = Math.floor(max)
+//     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
+// }
 function getRandomInt(min, max) {
     const minCeiled = Math.ceil(min)
     const maxFloored = Math.floor(max)
-    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
+    return Math.floor(seededRandom() * (maxFloored - minCeiled) + minCeiled)
 }
 
 function findAllMines() {
