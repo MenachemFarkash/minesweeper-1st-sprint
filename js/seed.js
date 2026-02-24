@@ -2,11 +2,10 @@ function initSeed() {
     let playerSeed = document.querySelector(`.seed-input`).value
     if (playerSeed) {
         setSeed(playerSeed)
-        document.querySelector(".seed-modal-container").classList.add("hidden")
     } else {
         setSeed(Date.now())
-        document.querySelector(".seed-modal-container").classList.add("hidden")
     }
+    document.querySelector(".seed-modal-container").classList.add("hidden")
 }
 
 function setSeed(seed) {
